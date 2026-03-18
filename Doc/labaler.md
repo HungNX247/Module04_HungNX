@@ -537,20 +537,3 @@ Vì hệ thống không sử dụng popup xác nhận. Trạng thái task thay �
 Khi cần theo dõi tiến độ xử lý theo ngày, theo tháng, theo project hoặc theo user.
 
 ---
-
-# 8. Gợi ý cấu trúc GitBook
-
-Bạn có thể tổ chức nội dung trên GitBook theo cây trang sau:
-
-- Giới thiệu
-- Phân quyền
-- Projects
-    - Projects cho Worker
-    - Projects cho Reviewer
-    - So sánh nhanh
-- Work Queue
-- Review Queue
-- Trạng thái và hành vi hệ thống
-- Checklist sử dụng nhanh
-- Báo cáo
-- Câu hỏi thường gặp
