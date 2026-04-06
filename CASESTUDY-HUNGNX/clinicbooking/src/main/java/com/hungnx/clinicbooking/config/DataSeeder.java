@@ -25,7 +25,7 @@ public class DataSeeder {
             if (userRepository.findByPhone("0334992991").isEmpty()) {
                 userRepository.save(
                         User.builder().fullName("System Admin 1")
-                                .phone("0334992975")
+                                .phone("0334992991")
                                 .passwordHash(passwordEncoder.encode("123456"))
                                 .role(Role.ADMIN)
                                 .build()

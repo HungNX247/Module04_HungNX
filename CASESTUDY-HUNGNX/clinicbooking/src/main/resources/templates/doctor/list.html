@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Danh sách bác sĩ')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-4">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="fw-bold mb-1">Danh sách bác sĩ</h2>
+            <p class="text-muted mb-0">Chọn bác sĩ phù hợp để đặt lịch khám</p>
+        </div>
+        <a th:href="@{/appointments/create}" class="btn btn-primary">Đặt lịch ngay</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-xl-4" th:each="doctor : ${doctors}">
+            <div class="card card-clean h-100 doctor-card">
+                <div class="card-body p-4">
+                    <div class="doctor-avatar mb-3"
+                         th:text="${#strings.substring(doctor.fullName, 0, 1)}">B</div>
+                    <h5 class="fw-bold mb-1" th:text="${doctor.fullName}">BS. Nguyễn Văn A</h5>
+                    <p class="text-primary fw-semibold mb-2" th:text="${doctor.specialty.name}">Nội tổng quát</p>
+                    <p class="text-muted mb-2">SĐT: <span th:text="${doctor.phone}">0901111111</span></p>
+                    <p class="text-muted mb-4">
+                        Giá khám:
+                        <strong th:text="${#numbers.formatInteger(doctor.price, 0, 'COMMA')} + ' VND'">
+                            200,000 VND
+                        </strong>
+                    </p>
+
+                    <a th:href="@{/appointments/create}" class="btn btn-outline-primary w-100">
+                        Đặt lịch với bác sĩ này
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

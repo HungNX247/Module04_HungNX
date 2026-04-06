@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="flash">
+  <div th:if="${param.created}" class="alert alert-success">Thao tác tạo thành công.</div>
+  <div th:if="${param.updated}" class="alert alert-success">Cập nhật thành công.</div>
+  <div th:if="${param.canceled}" class="alert alert-success">Hủy lịch thành công.</div>
+</div>
+</body>
+</html>

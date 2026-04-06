@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" th:href="@{/}">Clinic Booking</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="mainNavbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/doctors}">Bác sĩ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/appointments}">Lịch hẹn của tôi</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/change-password}">Đổi mật khẩu</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a class="nav-link" th:href="@{/admin/appointments}">Quản trị</a>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center gap-3">
+                <span class="text-white small">
+                    Xin chào,
+                    <strong sec:authentication="principal.fullName"></strong>
+                </span>
+
+        <form th:action="@{/logout}" method="post" class="m-0">
+          <button class="btn btn-light btn-sm" type="submit">Đăng xuất</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

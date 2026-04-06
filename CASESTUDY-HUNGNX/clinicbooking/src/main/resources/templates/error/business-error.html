@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${title})}"></head>
+<body>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card card-clean">
+        <div class="card-body p-5 text-center">
+          <h2 class="fw-bold text-danger mb-3" th:text="${title}">Đã xảy ra lỗi</h2>
+          <p class="text-muted mb-4" th:text="${message}">
+            Nội dung lỗi
+          </p>
+          <a th:href="@{${backUrl}}" class="btn btn-primary">Quay lại</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

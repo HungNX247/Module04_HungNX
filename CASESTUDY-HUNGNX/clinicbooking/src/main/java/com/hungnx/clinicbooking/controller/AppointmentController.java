@@ -89,7 +89,7 @@ public class AppointmentController {
             return "appointment/form";
         }
 
-        appointmentService.updateMine(id, user.getId(), form);
+        appointmentService.updateMine(user.getId(), id, form);
         return "redirect:/appointments?updated";
     }
 

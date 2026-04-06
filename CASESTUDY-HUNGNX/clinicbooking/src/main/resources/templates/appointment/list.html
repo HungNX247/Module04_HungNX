@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Lịch hẹn của tôi')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-4">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="fw-bold mb-1">Lịch hẹn của tôi</h2>
+            <p class="text-muted mb-0">Theo dõi, sửa hoặc hủy lịch khám</p>
+        </div>
+        <a th:href="@{/appointments/create}" class="btn btn-primary">Tạo lịch mới</a>
+    </div>
+
+    <div th:replace="~{fragments/flash :: flash}"></div>
+
+    <div class="card card-clean">
+        <div class="card-body p-0">
+            <div th:if="${#lists.isEmpty(appointments)}" class="p-4 text-center text-muted">
+                Bạn chưa có lịch hẹn nào.
+            </div>
+
+            <div class="table-responsive" th:if="${!#lists.isEmpty(appointments)}">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Bác sĩ</th>
+                        <th>Chuyên khoa</th>
+                        <th>Ngày</th>
+                        <th>Giờ</th>
+                        <th>Trạng thái</th>
+                        <th>Ghi chú</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${appointments}">
+                        <td th:text="${item.id}">1</td>
+                        <td th:text="${item.doctor.fullName}">BS. A</td>
+                        <td th:text="${item.doctor.specialty.name}">Tim mạch</td>
+                        <td th:text="${item.appointmentDate}">2026-04-10</td>
+                        <td th:text="${item.appointmentTime}">09:00</td>
+                        <td>
+                            <span class="badge rounded-pill"
+                                  th:classappend="${item.status.name() == 'BOOKED'} ? ' text-bg-success' :
+                                                  (${item.status.name() == 'CANCELED'} ? ' text-bg-danger' : ' text-bg-secondary')"
+                                  th:text="${item.status}">
+                                BOOKED
+                            </span>
+                        </td>
+                        <td th:text="${item.note ?: '-'}">Đau họng</td>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end gap-2"
+                                 th:if="${item.status.name() == 'BOOKED'}">
+                                <a th:href="@{/appointments/{id}/edit(id=${item.id})}"
+                                   class="btn btn-sm btn-outline-warning">
+                                    Sửa
+                                </a>
+
+                                <form th:action="@{/appointments/{id}/cancel(id=${item.id})}"
+                                      method="post"
+                                      class="d-inline">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Bạn có chắc muốn hủy lịch này?')">
+                                        Hủy
+                                    </button>
+                                </form>
+                            </div>
+
+                            <span class="text-muted small"
+                                  th:if="${item.status.name() != 'BOOKED'}">
+                                Không khả dụng
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

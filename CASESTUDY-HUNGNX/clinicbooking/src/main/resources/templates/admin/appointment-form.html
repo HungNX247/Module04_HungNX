@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Admin tạo lịch hẹn')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-4">
+    <div class="page-header">
+        <h2 class="fw-bold mb-1">Admin tạo lịch hẹn</h2>
+        <p class="text-muted mb-0">Nhập ngày dd/MM/yyyy, giờ HH:mm</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-clean">
+                <div class="card-body p-4">
+                    <form th:action="@{/admin/appointments/create}" th:object="${form}" method="post">
+                        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+                            <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Bệnh nhân</label>
+                            <select th:field="*{patientId}" class="form-select">
+                                <option value="">-- Chọn bệnh nhân --</option>
+                                <option th:each="patient : ${patients}"
+                                        th:value="${patient.id}"
+                                        th:text="${patient.fullName + ' - ' + patient.phone}">
+                                </option>
+                            </select>
+                            <div class="invalid-feedback d-block"
+                                 th:if="${#fields.hasErrors('patientId')}"
+                                 th:errors="*{patientId}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Bác sĩ</label>
+                            <select th:field="*{doctorId}" class="form-select">
+                                <option value="">-- Chọn bác sĩ --</option>
+                                <option th:each="doctor : ${doctors}"
+                                        th:value="${doctor.id}"
+                                        th:text="${doctor.fullName + ' - ' + doctor.specialty.name}">
+                                </option>
+                            </select>
+                            <div class="invalid-feedback d-block"
+                                 th:if="${#fields.hasErrors('doctorId')}"
+                                 th:errors="*{doctorId}"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Ngày khám</label>
+                                <input th:field="*{appointmentDate}"
+                                       type="date"
+                                       class="form-control"
+                                       placeholder="dd/MM/yyyy">
+                                <div class="invalid-feedback d-block"
+                                     th:if="${#fields.hasErrors('appointmentDate')}"
+                                     th:errors="*{appointmentDate}"></div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Giờ khám</label>
+                                <input th:field="*{appointmentTime}"
+                                       type="time"
+                                       class="form-control"
+                                       placeholder="HH:mm">
+                                <div class="invalid-feedback d-block"
+                                     th:if="${#fields.hasErrors('appointmentTime')}"
+                                     th:errors="*{appointmentTime}"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea th:field="*{note}" rows="4" class="form-control"></textarea>
+                            <div class="invalid-feedback d-block"
+                                 th:if="${#fields.hasErrors('note')}"
+                                 th:errors="*{note}"></div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a th:href="@{/admin/appointments}" class="btn btn-outline-secondary">Quay lại</a>
+                            <button type="submit" class="btn btn-primary">Tạo lịch hẹn</button>
+                        </div>
+                    </form>
+
+                    <div class="mt-4 small text-muted">
+                        Khung giờ hợp lệ: 07:00 - 17:00, cách 30 phút/lần, nghỉ trưa 12:00 - 13:30.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-4">
+  <div class="page-header">
+    <h2 class="fw-bold mb-1" th:text="${pageTitle}">Đặt lịch khám</h2>
+    <p class="text-muted mb-0">Chọn ngày và giờ khám từ bộ chọn có sẵn</p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card card-clean">
+        <div class="card-body p-4">
+          <form th:action="${isEdit} ? @{/appointments/{id}/edit(id=${appointmentId})} : @{/appointments/create}"
+                th:object="${form}"
+                method="post">
+
+            <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+              <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Bác sĩ</label>
+              <select th:field="*{doctorId}" class="form-select">
+                <option value="">-- Chọn bác sĩ --</option>
+                <option th:each="doctor : ${doctors}"
+                        th:value="${doctor.id}"
+                        th:text="${doctor.fullName + ' - ' + doctor.specialty.name + ' - ' + #numbers.formatInteger(doctor.price, 0, 'COMMA') + ' VND'}">
+                </option>
+              </select>
+              <div class="invalid-feedback d-block"
+                   th:if="${#fields.hasErrors('doctorId')}"
+                   th:errors="*{doctorId}"></div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Ngày khám</label>
+                <input th:field="*{appointmentDate}"
+                       type="date"
+                       class="form-control"
+                       id="appointmentDate">
+                <div class="invalid-feedback d-block"
+                     th:if="${#fields.hasErrors('appointmentDate')}"
+                     th:errors="*{appointmentDate}"></div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Giờ khám</label>
+                <input th:field="*{appointmentTime}"
+                       type="time"
+                       class="form-control"
+                       step="1800"
+                       min="07:00"
+                       max="17:00">
+                <div class="invalid-feedback d-block"
+                     th:if="${#fields.hasErrors('appointmentTime')}"
+                     th:errors="*{appointmentTime}"></div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Ghi chú</label>
+              <textarea th:field="*{note}"
+                        rows="4"
+                        class="form-control"
+                        placeholder="Mô tả triệu chứng hoặc ghi chú thêm"></textarea>
+              <div class="invalid-feedback d-block"
+                   th:if="${#fields.hasErrors('note')}"
+                   th:errors="*{note}"></div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <a th:href="@{/appointments}" class="btn btn-outline-secondary">Quay lại</a>
+              <button type="submit"
+                      class="btn btn-primary"
+                      th:text="${isEdit ? 'Lưu thay đổi' : 'Đặt lịch'}">
+                Đặt lịch
+              </button>
+            </div>
+          </form>
+
+          <div class="mt-4 small text-muted">
+            Khung giờ hợp lệ: 07:00 - 17:00, cách 30 phút/lần, nghỉ trưa 12:00 - 13:30.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('appointmentDate').setAttribute('min', today);
+</script>
+</body>
+</html>
