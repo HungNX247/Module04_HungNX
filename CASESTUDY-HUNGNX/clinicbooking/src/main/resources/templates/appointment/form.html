@@ -53,9 +53,7 @@
                 <input th:field="*{appointmentTime}"
                        type="time"
                        class="form-control"
-                       step="1800"
-                       min="07:00"
-                       max="17:00">
+                       placeholder="HH:mm">
                 <div class="invalid-feedback d-block"
                      th:if="${#fields.hasErrors('appointmentTime')}"
                      th:errors="*{appointmentTime}"></div>
@@ -92,9 +90,9 @@
   </div>
 </div>
 
-<script>
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('appointmentDate').setAttribute('min', today);
-</script>
+<!--<script>-->
+<!--  const today = new Date().toISOString().split('T')[0];-->
+<!--  document.getElementById('appointmentDate').setAttribute('min', today);-->
+<!--</script>-->
 </body>
 </html>

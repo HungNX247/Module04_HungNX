@@ -2,6 +2,7 @@ package com.hungnx.clinicbooking.web.form;
 
 import com.hungnx.clinicbooking.validation.AppointmentDateTimeCarrier;
 import com.hungnx.clinicbooking.validation.ValidAppointmentDateTime;
+import com.hungnx.clinicbooking.validation.ValidAppointmentTime;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class AppointmentForm implements AppointmentDateTimeCarrier {
 
     @NotNull(message = "Vui lòng nhập giờ khám")
     @DateTimeFormat(pattern = "HH:mm")
+    @ValidAppointmentTime
     private LocalTime appointmentTime;
 
     @Size(max = 255, message = "Ghi chú tối đa 255 ký tự")

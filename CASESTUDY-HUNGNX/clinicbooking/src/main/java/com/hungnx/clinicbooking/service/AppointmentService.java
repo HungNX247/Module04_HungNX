@@ -134,6 +134,17 @@ public class AppointmentService {
         appointment.setStatus(AppointmentStatus.CANCELED);
     }
 
+    @Transactional
+    public void deleteCancelByAdmin(Integer appointmentId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new AppointmentNotFoundException("Không tìm thấy lịch hẹn"));
+
+        if (appointment.getStatus() != AppointmentStatus.CANCELED) {
+            throw new IllegalArgumentException("Admin chỉ được xóa lịch đã bị hủy");
+        }
+        appointmentRepository.delete(appointment);
+    }
+
     private User findPatient(Integer patientId) {
         User patient = userRepository.findById(patientId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bệnh nhân"));

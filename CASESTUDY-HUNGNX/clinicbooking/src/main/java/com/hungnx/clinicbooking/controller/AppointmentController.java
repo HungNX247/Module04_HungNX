@@ -27,9 +27,14 @@ public class AppointmentController {
     }
 
     @GetMapping("/create")
-    public String createPage(Model model) {
+    public String createPage(@RequestParam(required = false) Integer doctorId, Model model) {
         if (!model.containsAttribute("form")) {
-            model.addAttribute("form", new AppointmentForm());
+            AppointmentForm form = new AppointmentForm();
+            if (doctorId != null) {
+                form.setDoctorId(doctorId);
+            }
+
+            model.addAttribute("form", form);
         }
         model.addAttribute("doctors", doctorService.findAll());
         model.addAttribute("isEdit", false);

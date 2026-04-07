@@ -34,6 +34,7 @@
             <th>Giờ</th>
             <th>Trạng thái</th>
             <th>Ghi chú</th>
+            <th class="text-end">Thao tác</th>
           </tr>
           </thead>
           <tbody>
@@ -46,13 +47,30 @@
             <td th:text="${item.appointmentDate}">2026-04-12</td>
             <td th:text="${item.appointmentTime}">14:00</td>
             <td>
-                            <span class="badge rounded-pill"
-                                  th:classappend="${item.status.name() == 'BOOKED'} ? ' text-bg-success' :
-                                                  (${item.status.name() == 'CANCELED'} ? ' text-bg-danger' : ' text-bg-secondary')"
-                                  th:text="${item.status}">
-                            </span>
+              <span class="badge rounded-pill"
+                    th:classappend="${item.status.name() == 'BOOKED'} ? ' text-bg-success' :
+                                    (${item.status.name() == 'CANCELED'} ? ' text-bg-danger' : ' text-bg-secondary')"
+                    th:text="${item.status}">
+              </span>
             </td>
             <td th:text="${item.note ?: '-'}">Admin tạo hộ</td>
+            <td class="text-end">
+              <form th:if="${item.status.name() == 'CANCELED'}"
+                    th:action="@{/admin/appointments/{id}/delete(id=${item.id})}"
+                    method="post"
+                    class="d-inline">
+                <button type="submit"
+                        class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('Bạn có chắc muốn xóa lịch hẹn đã bị hủy này?')">
+                  Xóa
+                </button>
+              </form>
+
+              <span class="text-muted small"
+                    th:if="${item.status.name() != 'CANCELED'}">
+                Chỉ xóa lịch đã hủy
+              </span>
+            </td>
           </tr>
           </tbody>
         </table>

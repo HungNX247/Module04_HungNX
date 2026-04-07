@@ -14,10 +14,33 @@ public class AppointmentTimeValidator implements ConstraintValidator<ValidAppoin
 
         LocalTime start = LocalTime.of(7, 0);
         LocalTime end = LocalTime.of(17, 0);
+        LocalTime lunchStart = LocalTime.of(12, 0);
+        LocalTime lunchEnd = LocalTime.of(13, 30);
 
-        boolean inWorkingHours = !localTime.isBefore(start) && !localTime.isAfter(end);
+        boolean inLunchBreak = !localTime.isBefore(lunchStart) && localTime.isBefore(lunchEnd);
         boolean validMinute = localTime.getMinute() == 0 || localTime.getMinute() == 30;
-        boolean lunchBreak = !localTime.isBefore(LocalTime.of(12, 0)) && localTime.isAfter(LocalTime.of(13, 30));
-        return inWorkingHours && validMinute && lunchBreak;
+
+        if (localTime.isBefore(start) || localTime.isAfter(end)) {
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate("Giờ khám bệnh từ 07:00 - 17:00")
+                    .addConstraintViolation();
+            return false;
+        }
+
+        if (!validMinute) {
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate(
+                    "Giờ khám chỉ được chọn theo mốc 30 phút: 07:00, 07:30, 08:00...."
+            ).addConstraintViolation();
+            return false;
+        }
+
+        if (inLunchBreak) {
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate("Không thể đặt lịch trong giờ nghỉ trưa (12:00 - 13:30). " +
+                    "Vui lòng chọn khung giờ khác").addConstraintViolation();
+            return false;
+        }
+        return true;
     }
 }

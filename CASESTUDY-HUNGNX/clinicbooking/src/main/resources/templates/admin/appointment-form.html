@@ -53,7 +53,7 @@
                                 <input th:field="*{appointmentDate}"
                                        type="date"
                                        class="form-control"
-                                       placeholder="dd/MM/yyyy">
+                                       id="appointmentDate">
                                 <div class="invalid-feedback d-block"
                                      th:if="${#fields.hasErrors('appointmentDate')}"
                                      th:errors="*{appointmentDate}"></div>

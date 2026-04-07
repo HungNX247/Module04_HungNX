@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidAppointmentTime {
-    String message() default "Khung giờ khám không hợp lệ";
+    String message() default "Khung giờ khám không hợp lệ.";
     Class<?>[] groups() default {};
     Class<? extends Payload> [] payload() default {};
 }
