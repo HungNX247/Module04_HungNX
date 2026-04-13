@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Khuyến mãi</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="page-header">
+            <h1 class="page-title" th:text="${pageTitle}">Thêm mới khuyến mãi</h1>
+        </div>
+
+        <form th:action="${formAction}"
+              th:object="${form}"
+              method="post"
+              class="form-grid">
+
+            <div class="form-group">
+                <label for="title">Tiêu đề</label>
+                <input id="title" type="text" th:field="*{title}" placeholder="Nhập tiêu đề khuyến mãi">
+                <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="startDate">Thời gian bắt đầu</label>
+                <input id="startDate" type="date" th:field="*{startDate}">
+                <div class="error" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">Thời gian kết thúc</label>
+                <input id="endDate" type="date" th:field="*{endDate}">
+                <div class="error" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="discount">Mức giảm giá</label>
+                <input id="discount" type="number" th:field="*{discount}" placeholder="Ví dụ: 50000">
+                <div class="error" th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="detail">Chi tiết</label>
+                <textarea id="detail" th:field="*{detail}" placeholder="Nhập nội dung chi tiết"></textarea>
+                <div class="error" th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"></div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" th:text="${isEdit} ? 'Cập nhật' : 'Thêm mới'"></button>
+                <a th:href="@{/promotions}" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách khuyến mãi</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="page-header">
+            <h1 class="page-title">Danh sách khuyến mãi</h1>
+            <a th:href="@{/promotions/create}" class="btn btn-primary">Thêm khuyến mãi</a>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+        <form th:action="@{/promotions}" method="get" class="search-form">
+            <div class="form-group">
+                <label>Mức giảm giá</label>
+                <input type="number" name="discount" th:value="${discount}" placeholder="Ví dụ: 50000">
+            </div>
+
+            <div class="form-group">
+                <label>Thời gian bắt đầu</label>
+                <input type="date" name="startDate" th:value="${startDate}">
+            </div>
+
+            <div class="form-group">
+                <label>Thời gian kết thúc</label>
+                <input type="date" name="endDate" th:value="${endDate}">
+            </div>
+
+            <div class="form-group" style="justify-content:end;">
+                <label>&nbsp;</label>
+                <div class="action-group">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    <a th:href="@{/promotions}" class="btn btn-secondary">Làm mới</a>
+                </div>
+            </div>
+        </form>
+
+        <div th:if="${#lists.isEmpty(items)}" class="empty-box">
+            Chưa có dữ liệu khuyến mãi.
+        </div>
+
+        <div th:unless="${#lists.isEmpty(items)}" class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Thời gian bắt đầu</th>
+                    <th>Thời gian kết thúc</th>
+                    <th>Mức giảm giá</th>
+                    <th>Chi tiết</th>
+                    <th>Chức năng</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.title}"></td>
+                    <td th:text="${item.startDate}"></td>
+                    <td th:text="${item.endDate}"></td>
+                    <td th:text="${item.discount} + ' VNĐ'"></td>
+                    <td th:text="${item.detail}"></td>
+                    <td>
+                        <div class="action-group">
+                            <a th:href="@{/promotions/{id}/edit(id=${item.id})}" class="btn btn-warning">Sửa</a>
+
+                            <form th:action="@{/promotions/{id}/delete(id=${item.id})}"
+                                  method="post"
+                                  th:attr="data-title=${item.title}"
+                                  onsubmit="return confirmDelete(this)">
+                                <button type="submit" class="btn btn-danger">Xóa</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(form) {
+        const title = form.getAttribute('data-title');
+        return confirm('Bạn có muốn xóa Chương trình khuyến mãi ' + title + '?');
+    }
+</script>
+</body>
+</html>
